@@ -1,11 +1,17 @@
 # py-meters
 
 ### Основные функции:
-	* опрос счётчиков электроэнергии;
-	* хранение получасовых профилей мощностей в БД (sqlite);
-  
+* опрос счётчиков электроэнергии по стандарту МЭК 61107-2001 (СЕ805M);
+* хранение получасовых профилей мощностей в БД (sqlite);
+
+communicate/Comm - класс взаимодействия с COM-портом
+
+communicate/Counter - класс взаимодействия со счётчиком
+
+Counter.get_profile(self, date, energy_type) - считывание со счётчика профиля энергии [PE, PI, QE, QI] за сутки <date>
+
 Построения Графиков Google Charts:
-https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart
+https://developers.google.com/chart/interactive/docs/gallery
 
 UI-Фреймворк Metro 4 Документация:
 https://metroui.org.ua/intro.html
