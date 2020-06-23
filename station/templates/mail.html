@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="metro4:locale" content="ru-RU">
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    {% load staticfiles %}
+    
+    <link href="{%static 'css/metro-all.css' %}" rel="stylesheet">
+    <link href="{%static 'css/sky-net.css' %}" rel="stylesheet">
+
+    <title></title>
+
+</head>
+
+
+<body>
+
+    <ul class="h-menu">
+        <li><a href="/">Главная</a></li>
+        <li><a href="mail">Почта</a></li>
+        <li><a href="faq">FAQ</a></li>
+        <li class="place-right"><a href="#">Вход</a></li>
+    </ul>
+    
+    <div class="container">    
+        <div class="grid">
+            <form action="mail" method="get">
+                <div class="row">
+                    <div class="cell-6 offset-3" data-role="panel">
+                        <button class="button info outline" type="submit">Показать</button>
+                    </div>
+                </div>
+            <form>
+            
+            <div class="row">
+                <div class="cell-6 offset-3" data-role="panel">
+                    <ul data-role="listview" 
+                        data-view="table"
+                        data-structure='{"date": true, "name": true}'>
+                        
+                        {% for o in objects %}
+                            <li data-icon="<span class='mif-mail fg-amber'>"
+                                data-caption="{{o.0}}"
+                                data-date="{{o.1}}"
+                                data-name="{{o.2}}"></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="{%static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{%static 'js/metro.js' %}"></script>
+
+    
+    <script>
+        $(document).ready(function () {
+            Metro.init();
+            console.log("Metro inited!!!")
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="grid">
+    <div class="row pt-8">
+        <div class="cell">               
+            <div data-role="panel">            
+                <ul id="prg_tree" data-role="treeview">
+                </ul>            
+            </div>  
+            
+            <!--div data-role="panel"> 
+                <ul data-role="treeview">
+                {% for key, value in tree.items %}
+                    <li data-icon="<span class='mif-drive2 fg-cyan'></span>" data-caption="{{value.name}}">
+                        <ul>
+                        {% for child in value.childs %}
+                            <li data-icon="<span class='mif-file-empty fg-green'></span>" data-caption="{{child}}"></li>
+                        {% endfor %} 
+                        </ul>
+                    </li>
+                {% endfor %}           
+                </ul>
+            </div-->                             
+        </div>
+
+    </div> 
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $(function() {
+
+        var None = null;
+        var lst = {{lst|safe}};
+        
+        lst.forEach(function(item, index, array) {
+        
+            /*
+            var el = $("<li>", { 
+                "id": 123, //"node" + item[id],
+                "data-icon": "<span class='mif-file-empty fg-green'></span>", 
+                "data-caption": "Гугли!"
+            });
+                
+            if (index < 20) {
+                $("#prg_tree").append(el)
+                //el.appentTo("#prg_tree");
+            }
+  
+            var parent = $('#' + item["parent_id"]).find('.current');
+            if (item["parent_id"] === null)
+                parent = null;
+       
+            if (index < 100) {
+                $("#prg_tree").data('treeview').addTo(parent, {
+                    id: 1,
+                    caption: item["name"],
+                    icon: '<span class=\'mif-drive2 fg-cyan\'></span>'
+                });
+                
+                console.log(item, index);
+            }
+            */
+            
+            
+            
+            
+        });
+
+    });
+</script>
+{% endblock %}
+

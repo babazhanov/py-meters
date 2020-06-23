@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="grid">
+        <div class="row pt-8">
+            <div class="cell-6">
+                <div class="row">
+                    <div class="cell-12">
+                        <div data-role="panel">
+
+                            <form action="/" method="get">
+                                <div class="row">
+                                    <div class="cell-9">
+                                        <input type="text" id="date" name="date" data-role="calendarpicker" data-locale="ru-RU" data-format="%d.%m.%Y" data-input-format="%d.%m.%Y" value="{{date}}">
+                                    </div>
+                                    <script>
+                                        function formatdate(dt) {
+                                            var d = dt.getDate();
+                                            var m = dt.getMonth() + 1;
+                                            var y = dt.getFullYear();
+                                            return (d < 10 ? '0'+d : d) + '.' + (m < 10 ? '0'+m : m) + '.' + y;
+                                        }
+                                        
+                                        function chdate(el, delta) {
+                                            var d = el.val();
+                                            var newDate = new Date(d.substring(6, 10) + '-' + d.substring(3, 5) + '-' + d.substring(0, 2));
+                                            newDate.setTime(newDate.getTime() + delta * 24*60*60*1000);
+                                            el.val(formatdate(newDate));
+                                        }
+                                    </script>
+                                    <div class="cell-3">
+                                        <button type="button" class="button info outline" onclick="chdate($('#date'), -1)">&lt;&lt;</button>
+                                        <button type="button" class="button info outline" onclick="chdate($('#date'), 1)">&gt;&gt;</button>
+                                    </div>
+                                </div>
+                                
+                                <p>
+                                    <select id="cell" name="cell" data-role="select">
+                                        {% for cell in cells %}
+                                            <option value="{{cell.pk}}" {%if cell.pk == cell_id%} selected="selected" {%endif%}>{{cell}}</option>
+                                        {% endfor%}
+                                    </select>
+
+                                </p>
+                                <p>
+                                    <pre>{{info}}</pre>
+                                </p>
+
+                                 <button class="button info outline" type="submit">Вывести</button>
+                            </form>
+                        </div>                  
+                    </div>
+                    
+                </div>                
+            
+                <br/>
+                <div class="row">
+                    <div class="cell-12">
+                        <div data-role="panel">
+                            <div id="curve_chart" style="height:500px;">{% if not profile %}Нет данных для построения графика{% endif %}</div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+            
+            <div class="cell-6">
+                <div data-role="panel">
+                
+                    <table class="table compact table-border cell-border"
+                           data-role="table"                               
+                           data-show-activity="false"      
+                           data-show-search="false"
+                           data-show-pagination="false"
+                           data-show-rows-steps="false"
+                           data-rows="-1"
+                           data-static-view="true"
+                    >
+                    
+                    
+                    <thead>
+                    <tr>
+                        <th>Время</th>
+                        <th>Профиль</th>
+                        <th>Потребление, кВт*ч</th>
+                    </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for p in profile %}
+                            <tr><td>{{p.time}}</td><td>{{p.value}}</td><td>{{p.energy}}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                    
+                    </table>
+                    
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    
+        <div class="row">    
+            <div class="cell-6">
+                <div id="curve_chart" style="width: 900px; height: 500px"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+    
+{% block scripts %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script>
+        $(document).ready(function () {       
+              {% if profile %}
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+              
+              
+              function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                  ['Час', 'Активный приём'],
+                  
+                  {% for p in profile %}
+                    
+                    ['{{p.time}}', {{p.energy}}],
+                    
+                  {% endfor %}                  
+                ]);
+
+                var options = {
+                  title: 'Потребление, кВт*ч - {{cell_name}}',
+                  curveType: 'function',
+                  legend: { position: 'bottom' }
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+                chart.draw(data, options);
+              }
+              {% endif %}
+        });
+    </script>
+{% endblock %}
