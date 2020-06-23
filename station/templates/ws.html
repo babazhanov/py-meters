@@ -1,8 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-Websockets
+<h3>Websockets</h3>
+
+<button onclick="get_values()">get-values</button>
+
+<ul id="lines"></ul>
 {% endblock %}
 
 {% block scripts %}
+<script>
+    function get_values() {
+        var socket = new WebSocket("ws://127.0.0.1:8000/ws/get-values");
+
+        socket.onopen = function() {
+          console.log("Соединение установлено.");
+
+          socket.send("{'cmd': 'get'}");
+        };
+
+        socket.onclose = function(event) {
+          if (event.wasClean) {
+             console.log('Соединение закрыто чисто');
+          } else {
+             console.log('Обрыв соединения'); // например, "убит" процесс сервера
+          }
+             console.log('Код: ' + event.code + ' причина: ' + event.reason);
+        };
+
+        socket.onmessage = function(event) {
+           console.log("Получены данные " + event.data);
+
+           $("#lines").append($("<li>").text(event.data));
+        };
+
+        socket.onerror = function(error) {
+           console.log("Ошибка " + error.message);
+        };
+    }
+</script>
 {% endblock %}

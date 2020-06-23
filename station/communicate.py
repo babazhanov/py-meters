@@ -3,7 +3,6 @@ import time
 from datetime import datetime
 import re
 
-
 """
 МЭК 61107-2001
 ГОСТ IEC 61107-2011
@@ -11,7 +10,9 @@ import re
 тарификации и управлении нагрузкой. Прямой локальный обмен данными
 """
 
+
 class Comm:
+    """Класс взаимодействия с COM-портом """
 
     STX = '\x02'
     SOH = '\x01'
@@ -30,13 +31,13 @@ class Comm:
             self.__conn.close()
 
     def write_str(self, string):
-        #print("----->")
-        #print(string)
+        # print("----->")
+        # print(string)
         for c in string:
             self.__conn.write((ord(c),))
 
     def read_str(self):
-        #print("<-----")
+        # print("<-----")
         b = self.__conn.read()
         if b == b'':
             return b''
@@ -48,7 +49,7 @@ class Comm:
                 time.sleep(0.5)
                 n = self.__conn.inWaiting()
 
-            #print(ret)
+            # print(ret)
             return ret
 
     def read_str_for_etx(self):
@@ -76,6 +77,7 @@ def BCC(string):
 
 
 class Counter:
+    """Класс взаимодействия со счётчиком"""
 
     def __init__(self, serial_number, comm):
         self.__serial = serial_number
@@ -93,7 +95,6 @@ class Counter:
 
         if ret != b'':
             return True
-        
 
     def get_profile(self, date, energy_type):
         """Загрузка из счётчика профиля энергии [PE, PI, QE, QI] за сутки date"""

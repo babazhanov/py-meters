@@ -1,7 +1,5 @@
 import os
-import time
-from datetime import datetime, timedelta, date, time
-
+from datetime import datetime, timedelta
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pymeters.settings")
