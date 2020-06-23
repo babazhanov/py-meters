@@ -1,10 +1,12 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render
 from datetime import datetime, timedelta
 from .models import Cell, Profile
 from .mailutils import MailBox
 
+
 def index(request):
     cell_id = "-1"
+    cell = "unknown"
     date = "-1"
 
     try:
@@ -21,7 +23,7 @@ def index(request):
 
         profile = Profile.objects.filter(cell__pk=cell_id, date=date, value_type=1).order_by("time")
 
-        return render_to_response("index.html", {
+        return render(request, "index.html", {
             "cells": Cell.objects.all(),
             "cell_id": cell_id,
             "cell_name": str(cell),
@@ -31,7 +33,7 @@ def index(request):
         })
 
     except Exception as e:
-        return render_to_response("index.html", {
+        return render(request, "index.html", {
             "cells": Cell.objects.all(),
             "cell_id": cell_id,
             "cell_name": str(cell),
@@ -44,6 +46,10 @@ def index(request):
 def mail(request):
     M = MailBox()
     
-    return render_to_response("mail.html", {
+    return render("mail.html", {
         "objects": M.get_headers_lastn(5)
         })
+
+
+def ws(request):
+    return render(request, "ws.html")

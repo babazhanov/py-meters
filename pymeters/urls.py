@@ -1,4 +1,4 @@
-"""kmacnt URL Configuration
+"""pymeters URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^$', station.views.index),
     url(r'^mail', station.views.mail),
     url(r'^ensfera', ensfera.views.index),
+    url(r'^ws', station.views.ws),
 ]

@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, date, time
 
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kmacnt.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pymeters.settings")
     import django
     django.setup()
 

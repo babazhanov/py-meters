@@ -1,5 +1,5 @@
 import pymssql
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, redirect
 
 
 """
@@ -43,7 +43,7 @@ def index(request):
 
     connnection.close()
     
-    return render_to_response("ensfera/index.html",
+    return render(request, "ensfera/index.html",
                               {"tree": native_tree,
                                "lst": tree,
                                })
