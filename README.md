@@ -15,3 +15,6 @@ https://developers.google.com/chart/interactive/docs/gallery
 
 UI-Фреймворк Metro 4 Документация:
 https://metroui.org.ua/intro.html
+
+### Страница профиля нагрузки
+![Профиль](https://github.com/babazhanov/py-meters/blob/master/blob/profiles.png?raw=true)
