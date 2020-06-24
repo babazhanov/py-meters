@@ -5,9 +5,9 @@
 * хранение получасовых профилей мощностей в БД (sqlite);
 * интеграция с ПК "Энергосфера"
 
-communicate/Comm - класс взаимодействия с COM-портом
+station.communicate.Comm - класс взаимодействия с COM-портом
 
-communicate/Counter - класс взаимодействия со счётчиком
+station.communicate.Counter - класс взаимодействия со счётчиком
 
 Counter.get_profile(self, date, energy_type) - считывание со счётчика профиля энергии [PE, PI, QE, QI] за сутки <date>
 
