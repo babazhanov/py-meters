@@ -11,9 +11,9 @@ if __name__ == "__main__":
 
     #date = datetime.combine(date.today(), time()) - timedelta(days=1)
     #date = datetime(2018, 1, 14)
-    for date in [datetime(2019, 1, i+18) for i in range(3)]:
+    for dt in [datetime(2019, 1, i + 18) for i in range(3)]:
         print('-' * 80)
-        print(date)
+        print(dt)
 
         comm = Comm("COM2")
 
@@ -37,19 +37,19 @@ if __name__ == "__main__":
 
                     for en_i in en_type:
 
-                        profile = cnt.get_profile(date, en_type[en_i])
+                        profile = cnt.get_profile(dt, en_type[en_i])
 
                         if profile is None:
                             print("Неполный профиль", profile)
                             continue
 
-                        dtm = date
+                        dtm = dt
                         for i in range(48):
 
                             try:
                                 o = Profile.objects.create(
                                     cell=cell,
-                                    date=date,
+                                    date=dt,
                                     time=dtm.time(),
                                     value_type=en_i,
                                     value=profile[i]
@@ -58,7 +58,7 @@ if __name__ == "__main__":
                                 print("Created ", o)
                                 dtm += timedelta(minutes=30)
                             except Exception as e:
-                                print(e, cell, date, dtm.time(), profile[i])
+                                print(e, cell, dt, dtm.time(), profile[i])
 
             except Exception as e:
                 print(e, cell)

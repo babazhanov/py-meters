@@ -1,28 +1,72 @@
 from datetime import datetime
 
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import JsonWebsocketConsumer
 
-from station.communicate import Comm, Counter
+from ensfera.models import Preference
+from station.communicate import Comm
+from station.models import Cell
 
 
-class GetInfoConsumer(AsyncWebsocketConsumer):
+class GetInfoConsumer(JsonWebsocketConsumer):
+    en_type = {
+        1: "PE",
+        2: "PI",
+        3: "QE",
+        4: "QI"
+    }
 
-    async def receive(self, text_data):
-        print(text_data)
+    def receive_json(self, content):
+        print(content)
 
-        for i in range(10):
-            try:
-                comm = Comm("COM2")
-                comm.open()
-                cnt = Counter("007259077000018", comm)
-                profile = cnt.get_profile(datetime(2018, 12, 16), "PE")
-                print(profile)
-                profile = cnt.get_profile(datetime(2018, 12, 16), "PI")
-                print(profile)
-                profile = cnt.get_profile(datetime(2018, 12, 16), "QE")
-                print(profile)
-                profile = cnt.get_profile(datetime(2018, 12, 16), "QI")
-                print(profile)
-                comm.close()
-            except Exception as e:
-                await self.send(str(e))
+        if content.get('cmd') == "start":
+            dt = datetime.now().date()
+            self.send_json({"date": str(dt)})
+
+            com_port = Preference.objects.get(name="com-port").value
+            comm = Comm(com_port)
+
+            self.send_json({"com": str(comm)})
+
+            for cell in Cell.objects.all():
+                self.send_json({"cell": str(cell)})
+                '''
+                try:
+                    await self.send(str(cell))
+
+                    comm.open()
+
+                    cnt = Counter(cell.serial_number, comm)
+
+                    if cnt.auth():
+                        cell = Cell.objects.get(serial_number=cell.serial_number)
+
+                        for en_i in self.en_type:
+
+                            profile = cnt.get_profile(dt, self.en_type[en_i])
+
+                            if profile is None:
+                                yield "Неполный профиль {}".format(profile)
+                                continue
+
+                            dtm = dt
+                            for i in range(48):
+
+                                try:
+                                    o = Profile.objects.create(
+                                        cell=cell,
+                                        date=dt,
+                                        time=dtm.time(),
+                                        value_type=en_i,
+                                        value=profile[i]
+                                    )
+
+                                    yield "Created  {}".format(o)
+                                    dtm += timedelta(minutes=30)
+                                except Exception as e:
+                                    yield "Exception {} {} {} {} {}".format(e, cell, dt, dtm.time(), profile[i])
+
+                except Exception as e:
+                    yield "Exception {} {}".format(e, cell)
+                finally:
+                    comm.close()
+                '''

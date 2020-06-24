@@ -3,7 +3,9 @@
 {% block content %}
 <h3>Websockets</h3>
 
-<button onclick="get_values()">get-values</button>
+<p>Порт: {{com_port}}</p>
+
+<button class="button info outline" onclick="get_values()">Опросить счётчики</button>
 
 <ul id="lines"></ul>
 {% endblock %}
@@ -16,7 +18,7 @@
         socket.onopen = function() {
           console.log("Соединение установлено.");
 
-          socket.send("{'cmd': 'get'}");
+          socket.send(JSON.stringify({"cmd": "start"}));
         };
 
         socket.onclose = function(event) {

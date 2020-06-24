@@ -2,7 +2,7 @@ from django.shortcuts import render
 from datetime import datetime, timedelta
 from .models import Cell, Profile
 from .mailutils import MailBox
-
+from ensfera.models import Preference
 
 def index(request):
     cell_id = "-1"
@@ -52,4 +52,5 @@ def mail(request):
 
 
 def ws(request):
-    return render(request, "ws.html")
+    com_port = Preference.objects.get(name="com-port").value
+    return render(request, "ws.html", {"com_port": com_port})
