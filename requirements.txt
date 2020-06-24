@@ -1,3 +1,5 @@
+# Redis (service) >= 3.2
+
 pyserial==3.4
 django>=3
 pymssql==2.1.4
