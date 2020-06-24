@@ -3,7 +3,16 @@
 {% block content %}
 <div class="grid">
     <div class="row pt-8">
-        <div class="cell">               
+        <div class="cell">
+            <p>Сервер: {{host}}</p>
+            <p>База данных: {{db}}</p>
+            <p>Пользователь: {{user}}</p>
+            <p>Пароль: {{pass}}</p>
+        </div>
+    </div>
+    <div class="row pt-8">
+
+        <div class="cell">
             <div data-role="panel">            
                 <ul id="prg_tree" data-role="treeview">
                 </ul>            

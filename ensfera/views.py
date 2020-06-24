@@ -1,6 +1,7 @@
 import pymssql
 from django.shortcuts import render, redirect
 
+from ensfera.models import Preference
 
 """
 def find_key(dic, key):
@@ -12,8 +13,12 @@ def find_key(dic, key):
                 return result
 """
 
-def index(request):
 
+def index(request):
+    native_tree = {}
+    tree = {}
+
+    '''
     connnection = pymssql.connect('aiis-2', 'reader', '555555', 'KMAESBYT', charset='cp1251')
     cursor = connnection.cursor()
     cursor.execute(
@@ -42,8 +47,14 @@ def index(request):
                 native_tree[row[2]]["childs"].append(row[1])
 
     connnection.close()
-    
+    '''
+
     return render(request, "ensfera/index.html",
-                              {"tree": native_tree,
-                               "lst": tree,
-                               })
+                  {
+                      "host": Preference.objects.get(name="host").value,
+                      "db": Preference.objects.get(name="db").value,
+                      "user": Preference.objects.get(name="user").value,
+                      "pass": Preference.objects.get(name="password").value,
+                      "tree": native_tree,
+                      "lst": tree,
+                  })
