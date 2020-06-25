@@ -52,5 +52,9 @@ def mail(request):
 
 
 def ws(request):
-    com_port = Preference.objects.get(name="com-port").value
+    com_port = Preference.objects.get_or_create(
+        name="com-port",
+        defaults={'value': 'COM2'}
+    )[0].value
+    
     return render(request, "ws.html", {"com_port": com_port})

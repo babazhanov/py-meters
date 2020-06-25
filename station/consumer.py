@@ -22,17 +22,18 @@ class GetInfoConsumer(JsonWebsocketConsumer):
             dt = datetime.now().date()
             self.send_json({"date": str(dt)})
 
-            com_port = Preference.objects.get(name="com-port").value
+            com_port = Preference.objects.get_or_create(
+                name="com-port",
+                defaults={'value': 'COM2'}
+            )[0].value
             comm = Comm(com_port)
 
             self.send_json({"com": str(comm)})
 
             for cell in Cell.objects.all():
                 self.send_json({"cell": str(cell)})
-                '''
+                
                 try:
-                    await self.send(str(cell))
-
                     comm.open()
 
                     cnt = Counter(cell.serial_number, comm)
@@ -45,7 +46,8 @@ class GetInfoConsumer(JsonWebsocketConsumer):
                             profile = cnt.get_profile(dt, self.en_type[en_i])
 
                             if profile is None:
-                                yield "Неполный профиль {}".format(profile)
+                                #yield "Неполный профиль {}".format(profile)
+                                self.send_json({"cell": "Неполный профиль {}".format(profile)})
                                 continue
 
                             dtm = dt
@@ -60,13 +62,16 @@ class GetInfoConsumer(JsonWebsocketConsumer):
                                         value=profile[i]
                                     )
 
-                                    yield "Created  {}".format(o)
+                                    #yield "Created  {}".format(o)
+                                    self.send_json({"cell": "Created  {}".format(o)})
                                     dtm += timedelta(minutes=30)
                                 except Exception as e:
-                                    yield "Exception {} {} {} {} {}".format(e, cell, dt, dtm.time(), profile[i])
+                                    self.send_json({"Exception": "{} {} {} {} {}".format(e, cell, dt, dtm.time(), profile[i])})
+                                    #yield "Exception {} {} {} {} {}".format(e, cell, dt, dtm.time(), profile[i])
 
                 except Exception as e:
-                    yield "Exception {} {}".format(e, cell)
+                    self.send_json({"Exception": "{} {}".format(e, cell)})
+                    #yield "Exception {} {}".format(e, cell)
                 finally:
                     comm.close()
-                '''
+

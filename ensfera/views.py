@@ -51,10 +51,10 @@ def index(request):
 
     return render(request, "ensfera/index.html",
                   {
-                      "host": Preference.objects.get(name="host").value,
-                      "db": Preference.objects.get(name="db").value,
-                      "user": Preference.objects.get(name="user").value,
-                      "pass": Preference.objects.get(name="password").value,
+                      "host": Preference.objects.get_or_create(name="host", defaults={'value': 'localhost'})[0].value,
+                      "db": Preference.objects.get_or_create(name="db", defaults={'value': 'db'})[0].value,
+                      "user": Preference.objects.get_or_create(name="user", defaults={'value': 'user'})[0].value,
+                      "pass": Preference.objects.get_or_create(name="password", defaults={'value': 'pass'})[0].value,
                       "tree": native_tree,
                       "lst": tree,
                   })

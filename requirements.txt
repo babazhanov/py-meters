@@ -3,5 +3,5 @@
 pyserial==3.4
 django>=3
 pymssql==2.1.4
-channels
+channels>=2.2
 channels-redis
