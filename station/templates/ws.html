@@ -31,9 +31,15 @@
         };
 
         socket.onmessage = function(event) {
-           console.log("Получены данные " + event.data);
+            console.log("Получены данные " + event.data);
 
-           $("#lines").append($("<li>").text(event.data));
+            let keys = JSON.parse(event.data);
+            console.log(keys);
+
+            for (var k in keys) {
+                console.log(k, keys[k]);
+                $("#lines").append($("<li>").text(k + ': ' + keys[k]));
+            }
         };
 
         socket.onerror = function(error) {
