@@ -12,7 +12,8 @@ import re
 
 
 class Comm:
-    """Класс взаимодействия с COM-портом """
+    """Класс взаимодействия с COM-портом
+    """
 
     STX = '\x02'
     SOH = '\x01'
@@ -22,6 +23,9 @@ class Comm:
     def __init__(self, port):
         self.__port = port
         self.__conn = None
+
+    def __str__(self):
+        return "Порт: {}".format(self.__port)
 
     def open(self):
         self.__conn = serial.Serial(self.__port, 9600, timeout=5, stopbits=1, parity='E', bytesize=7)
@@ -82,6 +86,9 @@ class Counter:
     def __init__(self, serial_number, comm):
         self.__serial = serial_number
         self.__comm = comm
+
+    def __str__(self):
+        return "Счётчик: {} ({})".format(self.__serial, self.__comm)
 
     def auth(self):
         """Аутентификация на счётчике"""

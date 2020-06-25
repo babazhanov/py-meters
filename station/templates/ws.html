@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Websockets</h3>
+<h3 class="mt-2">Опрос счётчиков</h3>
 
 <p>Порт: {{com_port}}</p>
 
-<button class="button info outline" onclick="get_values()">Опросить счётчики</button>
+<button class="button info outline mt-2" onclick="get_values()">Опросить счётчики</button>
 
-<ul id="lines"></ul>
+<ul id="lines" class="mt-2"></ul>
 {% endblock %}
 
 {% block scripts %}
