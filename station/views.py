@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from datetime import datetime, timedelta
+
 from .models import Cell, Profile
 from .mailutils import MailBox
 from ensfera.models import Preference
+from .tasks import celery_task
 
 def index(request):
     cell_id = "-1"
@@ -58,3 +60,8 @@ def ws(request):
     )[0].value
     
     return render(request, "ws.html", {"com_port": com_port})
+
+
+def celery(request):
+    celery_task.delay()
+    return render(request, "celery.html")

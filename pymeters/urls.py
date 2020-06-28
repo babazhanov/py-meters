@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^mail', station.views.mail),
     url(r'^ensfera', ensfera.views.index),
     url(r'^ws', station.views.ws),
+    url(r'^celery', station.views.celery),
 ]

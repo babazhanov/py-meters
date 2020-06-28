@@ -5,3 +5,5 @@ django>=3
 pymssql==2.1.4
 channels>=2.2
 channels-redis
+celery==4.4.6
+celery[redis]
