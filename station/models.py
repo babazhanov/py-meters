@@ -19,6 +19,10 @@ class Cell(models.Model):
     note = models.TextField(verbose_name='Примечание', blank=True, null=True)
 
 
+def get_energy_type_names():
+    return [(1, "PE"), (2, "PI"), (3, "QE"), (4, "QI")]
+
+
 class Profile(models.Model):
     """Получасовой профиль нагрузки"""
 

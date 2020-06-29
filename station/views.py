@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from .models import Cell, Profile
 from .mailutils import MailBox
 from ensfera.models import Preference
-from .tasks import celery_task
+
 
 def index(request):
     cell_id = "-1"
@@ -63,5 +63,5 @@ def ws(request):
 
 
 def celery(request):
-    celery_task.delay()
+    #celery_task.delay()
     return render(request, "celery.html")

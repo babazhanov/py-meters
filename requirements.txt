@@ -1,9 +1,12 @@
 # Redis (service) >= 3.2
 
 pyserial==3.4
-django>=3
+django>=3.0.7
 pymssql==2.1.4
-channels>=2.2
+channels>=2.4.0
 channels-redis
 celery==4.4.6
 celery[redis]
+windows-curses
+eventlet
+django-celery

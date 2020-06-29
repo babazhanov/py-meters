@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # https://docs.celeryproject.org/en/latest/django/first-steps-with-django.html
+    'djcelery',
 
     'channels',
     'station',
@@ -145,4 +147,22 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
-# CELERY_IMPORTS = ("tasks",)
+
+"""
+CELERYD_HIJACK_ROOT_LOGGER = False
+LOGGING = {
+    'handlers': {
+        'celery_sentry_handler': {
+            'level': 'ERROR',
+            'class': 'core.log.handlers.CelerySentryHandler'
+        }
+    },
+    'loggers': {
+        'celery': {
+            'handlers': ['celery_sentry_handler'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    }
+}
+"""

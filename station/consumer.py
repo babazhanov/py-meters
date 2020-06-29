@@ -5,6 +5,7 @@ from channels.generic.websocket import JsonWebsocketConsumer
 from ensfera.models import Preference
 from station.communicate import Comm
 from station.models import Cell
+from station.tasks import celery_get_profile
 
 
 class GetInfoConsumer(JsonWebsocketConsumer):
@@ -32,7 +33,10 @@ class GetInfoConsumer(JsonWebsocketConsumer):
 
             for cell in Cell.objects.all():
                 self.send_json({"cell": str(cell)})
-                
+
+                result = celery_get_profile.delay(com_port, cell.pk, dt)
+                self.send_json({"res": str(result.get())})
+                '''
                 try:
                     comm.open()
 
@@ -74,4 +78,5 @@ class GetInfoConsumer(JsonWebsocketConsumer):
                     #yield "Exception {} {}".format(e, cell)
                 finally:
                     comm.close()
+                '''
 
